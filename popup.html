@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VK Ad Cleaner</title><link rel="stylesheet" href="popup.css"></head>
+<body><main><header><b>VK Ad Cleaner</b><small>Локальный фильтр с обучением на ваших отметках</small></header>
+<label class="toggle"><span><strong>Фильтрация включена</strong><small>Применяется к открытой ленте</small></span><input id="enabled" type="checkbox"></label>
+<section class="learning"><div class="section-title"><strong>Обучение</strong><label class="mini-toggle"><input id="learningEnabled" type="checkbox"> Автораспознавание</label></div><label class="mini-toggle training-toggle"><input id="showTrainingControls" type="checkbox"> Показывать кнопки обучения в ленте</label><div class="stats"><div><b id="adCount">0</b><small>Рекламных</small></div><div><b id="cleanCount">0</b><small>Обычных</small></div></div><p>Отмечайте посты прямо в ленте кнопками «Это реклама» и «Обычный пост». Примеры сохраняются только в этом браузере.</p><button id="clearSamples" class="danger">Очистить обучение</button></section>
+<section><strong>Блокируемые домены</strong><p>Один домен на строку. Это отдельное правило точного совпадения.</p><textarea id="domains" rows="4"></textarea><div class="actions"><button id="reset">Сбросить домены</button><button id="save">Сохранить</button></div><div id="status"></div></section>
+<footer>1.1.3 · Все данные хранятся локально</footer></main><script src="popup.js"></script></body></html>

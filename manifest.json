@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "VK Ad Cleaner",
+  "version": "1.1.4",
+  "description": "Локальный фильтр рекламы ВКонтакте с обучением на пользовательских отметках; поддерживает vk.ru и vk.com.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://vk.com/*",
+    "https://*.vk.com/*",
+    "https://vk.ru/*",
+    "https://*.vk.ru/*"
+  ],
+  "action": {
+    "default_title": "VK Ad Cleaner",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://vk.com/*",
+        "https://*.vk.com/*",
+        "https://vk.ru/*",
+        "https://*.vk.ru/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+const DEFAULTS={enabled:true,domains:["ozon.ru"],learningEnabled:true,showTrainingControls:true,samples:[]};
+const enabledEl=document.getElementById("enabled"),learningEl=document.getElementById("learningEnabled"),trainingEl=document.getElementById("showTrainingControls"),domainsEl=document.getElementById("domains"),statusEl=document.getElementById("status");
+function clean(text){return [...new Set(text.split(/[\n,;]+/).map(x=>x.trim().toLowerCase().replace(/^https?:\/\//,"").replace(/^www\./,"").split(/[/?#:\s]/)[0]).filter(x=>/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?\.[a-z]{2,}$/i.test(x)))];}
+function render(s){const samples=s.samples||[];document.getElementById("adCount").textContent=samples.filter(x=>x.label===1).length;document.getElementById("cleanCount").textContent=samples.filter(x=>x.label===0).length;}
+function save(){const domains=clean(domainsEl.value);if(!domains.length){statusEl.textContent="Укажи корректный домен.";return;}chrome.storage.local.set({enabled:enabledEl.checked,learningEnabled:learningEl.checked,showTrainingControls:trainingEl.checked,domains},()=>{statusEl.textContent=chrome.runtime.lastError?"Ошибка: "+chrome.runtime.lastError.message:"Настройки сохранены.";});}
+chrome.storage.local.get(DEFAULTS,s=>{enabledEl.checked=s.enabled!==false;learningEl.checked=s.learningEnabled!==false;trainingEl.checked=s.showTrainingControls!==false;domainsEl.value=(s.domains||DEFAULTS.domains).join("\n");render(s);});
+document.getElementById("save").addEventListener("click",save);enabledEl.addEventListener("change",save);learningEl.addEventListener("change",save);trainingEl.addEventListener("change",save);
+document.getElementById("reset").addEventListener("click",()=>{domainsEl.value=DEFAULTS.domains.join("\n");save();});
+document.getElementById("clearSamples").addEventListener("click",()=>{if(!confirm("Удалить все примеры обучения?"))return;chrome.storage.local.set({samples:[]},()=>{render({samples:[]});statusEl.textContent="Примеры обучения удалены.";});});
+chrome.storage.onChanged.addListener((changes,area)=>{if(area==="local"&&changes.samples)chrome.storage.local.get(DEFAULTS,render);});
